@@ -160,7 +160,6 @@ if (rsvp) {
   const success = rsvp.querySelector("[data-rsvp-success]");
   const submitButton = form.querySelector(".rsvp__submit");
   const nameField = form.elements.namedItem("name");
-  let pendingSubmission;
 
   /* --- Срок приёма --- */
   function closeRsvp(moveFocus = false) {
@@ -216,12 +215,6 @@ if (rsvp) {
       companionNames: attending ? data.get("companionNames").trim() : "",
       hasChildren: attending ? data.get("hasChildren") === "yes" : null,
     };
-    // Сохраняем ID при повторе тех же данных после ошибки сети.
-    const fingerprint = JSON.stringify(payload);
-    if (pendingSubmission?.fingerprint !== fingerprint) {
-      pendingSubmission = { fingerprint, requestId: crypto.randomUUID() };
-    }
-    payload.requestId = pendingSubmission.requestId;
 
     submitButton.disabled = true;
     submitButton.textContent = "Отправляем…";
@@ -243,7 +236,6 @@ if (rsvp) {
       if (!response.ok || result?.ok !== true) throw new Error("RSVP save failed");
 
       form.reset();
-      pendingSubmission = null;
       updateRsvpQuestions();
       if (typeof success.showModal === "function") success.showModal();
       else status.textContent = "Спасибо за ответ! Эдгар и Кристина уже знают о вашем решении.";

@@ -20,24 +20,20 @@ module.exports = async function handler(req, res) {
   }
   if (!data || typeof data.name !== "string" || !data.name.trim() || data.name.length > 160 ||
       typeof data.attending !== "boolean" ||
-      typeof data.requestId !== "string" || !/^[a-zA-Z0-9-]{16,80}$/.test(data.requestId) ||
       (data.attending && (typeof data.companionNames !== "string" || data.companionNames.length > 1000 ||
         typeof data.hasChildren !== "boolean"))) {
     return res.status(400).json({ ok: false, code: "INVALID_DATA" });
   }
 
   const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
-  const secret = process.env.RSVP_SECRET;
-  if (!scriptUrl || !/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(scriptUrl) || !secret) {
+  if (!scriptUrl || !/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(scriptUrl)) {
     return res.status(503).json({ ok: false, code: "NOT_CONFIGURED" });
   }
   const payload = {
-    requestId: data.requestId,
     name: data.name.trim(),
     attending: data.attending,
     companionNames: data.attending ? data.companionNames.trim() : "",
     hasChildren: data.attending ? data.hasChildren : null,
-    secret,
   };
   try {
     const response = await fetch(scriptUrl, {
@@ -51,7 +47,7 @@ module.exports = async function handler(req, res) {
     if (response.ok && result.code === "RSVP_CLOSED") {
       return res.status(403).json({ ok: false, code: "RSVP_CLOSED" });
     }
-    if (!response.ok || result.ok !== true || result.requestId !== payload.requestId) {
+    if (!response.ok || result.ok !== true) {
       return res.status(502).json({ ok: false, code: "SAVE_FAILED" });
     }
     return res.status(200).json({ ok: true });
