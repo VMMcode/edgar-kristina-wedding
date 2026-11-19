@@ -1,5 +1,13 @@
 /* --- Подключение шрифтов --- */
 @font-face {
+  font-family: "Sloop Script Pro";
+  src: url("fonts/sloop-script-pro-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Cormorant Garamond";
   src: url("fonts/CormorantGaramond-Regular.ttf") format("truetype");
   font-weight: 400;
@@ -249,7 +257,9 @@ html.is-envelope-open {
 .hero__inner {
   --hero-gap: 2.2rem;
   --hero-scroll-space: 8.8rem;
-  transition: opacity 0.9s ease;
+  transition:
+    opacity 1s cubic-bezier(0.2, 0.6, 0.3, 1),
+    translate 1s cubic-bezier(0.2, 0.6, 0.3, 1);
   display: grid;
   justify-items: center;
   gap: 0;
@@ -270,32 +280,36 @@ html.is-envelope-open {
 
 .is-envelope-open:not(.is-invitation-revealing) .hero__inner {
   opacity: 0;
+  translate: 0 2.4rem;
+}
+
+.hero__monogram {
+  display: block;
+  width: 8rem;
+  height: auto;
 }
 
 .hero__intro {
   display: grid;
   justify-items: center;
-  gap: 1.4rem;
-}
-
-.hero__ornament {
-  width: 1.4rem;
-  height: auto;
+  /* Сохраняем высоту удалённого орнамента вместе с его отступом. */
+  padding-top: calc(1.4rem * 123 / 144 + 1.4rem);
 }
 
 .hero__title {
   display: grid;
   justify-items: center;
   gap: 0.5rem;
-  font: 400 clamp(4rem, 11vw, 5.6rem)/0.98 var(--h-font);
-  letter-spacing: -0.025em;
+  font: 400 clamp(5.4rem, 16vw, 7.2rem)/0.98 "Sloop Script Pro", cursive;
+  letter-spacing: 0;
 }
 
 .hero__title:focus {
   outline: none;
 }
 .hero__ampersand {
-  font-size: 0.48em;
+  font-family: var(--h-font);
+  font-size: 0.36em;
 }
 .hero__date {
   margin-top: calc(var(--hero-gap) * 0.2);
@@ -574,7 +588,9 @@ html.is-envelope-open {
 }
 .timeline.is-timing-ready .timeline__item {
   opacity: 0.5;
-  transition: opacity 0.65s ease;
+  transition:
+    opacity 0.95s cubic-bezier(0.2, 0.6, 0.3, 1),
+    translate 0.95s cubic-bezier(0.2, 0.6, 0.3, 1);
 }
 .timeline.is-timing-ready .timeline__item.is-active {
   opacity: 1;
@@ -626,7 +642,7 @@ html.is-envelope-open {
 }
 
 .timeline__art::after {
-  background: url("img/timeline-flowers.webp") center bottom / 100% auto
+  background: url("img/timeline-flowers.webp?v=20261119-11") center bottom / 100% auto
     no-repeat;
 }
 
@@ -1129,13 +1145,16 @@ textarea.rsvp__input {
 
 /* --- Появление секций --- */
 [data-reveal].is-reveal-ready {
-  transition: opacity 0.85s cubic-bezier(0.2, 0.6, 0.3, 1);
+  transition:
+    opacity 0.95s cubic-bezier(0.2, 0.6, 0.3, 1),
+    translate 0.95s cubic-bezier(0.2, 0.6, 0.3, 1);
   transition-delay: var(--reveal-delay, 0s);
 }
 
-/* Спокойное проявление на месте, без подъёма блоков. */
+/* Мягкое проявление с небольшим подъёмом, без изменения геометрии секций. */
 [data-reveal].is-reveal-ready:not(.is-visible):not(:focus-within) {
   opacity: 0;
+  translate: 0 2.4rem;
 }
 
 [data-reveal].is-reveal-ready:focus-within {
@@ -1147,6 +1166,9 @@ textarea.rsvp__input {
   .envelope__button,
   .hero__inner {
     transition: none;
+  }
+  .is-envelope-open:not(.is-invitation-revealing) .hero__inner {
+    translate: none;
   }
   .hero__scroll-icon {
     animation: none;
@@ -1171,6 +1193,7 @@ textarea.rsvp__input {
   }
   [data-reveal].is-reveal-ready:not(.is-visible):not(:focus-within) {
     opacity: 1;
+    translate: none;
     transform: none;
   }
 }

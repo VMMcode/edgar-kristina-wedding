@@ -54,8 +54,9 @@
     />
     <meta name="theme-color" content="#f2e7d3" />
     <link rel="preload" as="image" href="img/envelope-poster.webp" />
-    <link rel="stylesheet" href="style.css?v=20261119-9" />
-    <script src="script.js?v=20261119-9" defer></script>
+    <link rel="preload" as="font" href="fonts/sloop-script-pro-regular.woff2" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="style.css?v=20261119-12" />
+    <script src="script.js?v=20261119-10" defer></script>
   </head>
   <body>
     <svg
@@ -204,14 +205,14 @@
         <div class="container">
           <div class="hero__inner">
             <div class="hero__content">
+              <img
+                class="hero__monogram"
+                src="img/hero-monogram.webp?v=20261119-11"
+                width="768"
+                height="512"
+                alt=""
+              />
               <div class="hero__intro">
-                <img
-                  class="hero__ornament"
-                  src="img/hero-ornament.png"
-                  width="144"
-                  height="123"
-                  alt=""
-                />
                 <p class="hero__subtitle">Приглашение<br />на свадьбу</p>
               </div>
               <h1 class="hero__title" id="hero-title" tabindex="-1">
@@ -326,22 +327,22 @@
               Тайминг
             </h2>
             <ol class="timeline__list" role="list">
-              <li class="timeline__item">
+              <li class="timeline__item" data-reveal>
                 <time class="timeline__time" datetime="17:30">17:30</time>
                 <p class="timeline__name">Начало</p>
                 <p class="timeline__caption">Объятия и первые кадры</p>
               </li>
-              <li class="timeline__item">
+              <li class="timeline__item" data-reveal>
                 <time class="timeline__time" datetime="18:30">18:30</time>
                 <p class="timeline__name">Ужин и тосты</p>
                 <p class="timeline__caption">Тосты, улыбки и разговоры</p>
               </li>
-              <li class="timeline__item">
+              <li class="timeline__item" data-reveal>
                 <time class="timeline__time" datetime="20:30">20:30</time>
                 <p class="timeline__name">Танцы</p>
                 <p class="timeline__caption">Танцуем</p>
               </li>
-              <li class="timeline__item">
+              <li class="timeline__item" data-reveal>
                 <time class="timeline__time" datetime="23:00">23:00</time>
                 <p class="timeline__name">Торт</p>
                 <p class="timeline__caption">Сладкий финал вечера</p>
