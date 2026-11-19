@@ -331,3 +331,14 @@ if (countdown) {
   updateCountdown();
   timer.hidden = false;
 }
+
+// защита от черного фона видео
+(() => {
+  const isSafari = /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent);
+  if (isSafari) return;
+  document.querySelectorAll('.countdown__art source[type*="hvc1"]').forEach((s) => {
+    const video = s.parentElement;
+    s.remove();
+    video.load();
+  });
+})();
